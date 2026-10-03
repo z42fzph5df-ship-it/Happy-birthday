@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>هل أنت مثلي؟ 🌈</title>
+
+<style>
+
+/* =====================================================
+   FONTS + RESET
+===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    font-family: 'Cairo', sans-serif;
+
+    color: #442052;
+
+    background:
+        radial-gradient(circle at 10% 10%, #ff9bdc 0%, transparent 25%),
+        radial-gradient(circle at 90% 15%, #8bdcff 0%, transparent 25%),
+        radial-gradient(circle at 20% 90%, #ffd86e 0%, transparent 25%),
+        radial-gradient(circle at 85% 85%, #bd8cff 0%, transparent 30%),
+        linear-gradient(135deg, #fff0fb, #f2e8ff, #e7f8ff);
+}
+
+/* =====================================================
+   FLOATING DECORATIONS
+===================================================== */
+
+.decoration {
+    position: fixed;
+    z-index: 1;
+    pointer-events: none;
+
+    animation:
+        floating 5s ease-in-out infinite;
+}
+
+@keyframes floating {
+
+    0%,100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-25px) rotate(8deg);
+    }
+}
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+
+    position: relative;
+    z-index: 5;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+    width: min(680px, 94vw);
+
+    padding: 42px 32px;
+
+    border-radius: 35px;
+
+    background: rgba(255,255,255,.88);
+
+    backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 30px 80px rgba(100,40,130,.18),
+        0 0 0 5px rgba(255,255,255,.65);
+
+    text-align: center;
+
+    animation: cardIn .7s ease;
+
+}
+
+@keyframes cardIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+/* =====================================================
+   SCREENS
+===================================================== */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+
+    animation:
+        screenIn .55s ease;
+}
+
+@keyframes screenIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.rainbow-icon {
+
+    font-size: 90px;
+
+    margin-bottom: 5px;
+
+    animation:
+        rainbowBounce 2s ease-in-out infinite;
+
+}
+
+@keyframes rainbowBounce {
+
+    0%,100% {
+        transform: translateY(0) rotate(-4deg);
+    }
+
+    50% {
+        transform: translateY(-14px) rotate(4deg);
+    }
+
+}
+
+.main-title {
+
+    font-size: clamp(42px, 9vw, 70px);
+
+    font-weight: 900;
+
+    line-height: 1.15;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3297,
+            #ff713b,
+            #ffd329,
+            #46d879,
+            #35bfff,
+            #9c55ff,
+            #ff3297
+        );
+
+    background-size: 400%;
+
+    -webkit-background-clip: text;
+
+    color: transparent;
+
+    animation:
+        rainbowMove 4s linear infinite;
+
+}
+
+@keyframes rainbowMove {
+
+    from {
+        background-position: 0%;
+    }
+
+    to {
+        background-position: 400%;
+    }
+
+}
+
+.intro-text {
+
+    font-size: 19px;
+
+    line-height: 1.9;
+
+    color: #67466e;
+
+    margin:
+        20px
+        0
+        30px;
+
+}
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.main-button {
+
+    border: none;
+
+    padding: 15px 40px;
+
+    border-radius: 50px;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff4da8,
+            #9c57ff,
+            #42bfff
+        );
+
+    box-shadow:
+        0 10px 30px rgba(145,75,220,.28);
+
+    transition: .25s;
+
+}
+
+.main-button:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.04);
+
+    box-shadow:
+        0 15px 35px rgba(145,75,220,.4);
+
+}
+
+/* =====================================================
+   QUIZ HEADER
+===================================================== */
+
+.progress-container {
+
+    height: 12px;
+
+    width: 100%;
+
+    background: #f0ddec;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 25px;
+
+}
+
+.progress {
+
+    height: 100%;
+
+    width: 0%;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff4ca5,
+            #ffd33d,
+            #48d879,
+            #43baff,
+            #a356ff
+        );
+
+    transition:
+        width .5s ease;
+
+}
+
+.question-number {
+
+    color: #a34fb0;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    margin-bottom: 10px;
+
+}
+
+.question {
+
+    font-size: 26px;
+
+    font-weight: 800;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+
+}
+
+/* =====================================================
+   ANSWERS
+===================================================== */
+
+.answers {
+
+    display: grid;
+
+    gap: 13px;
+
+}
+
+.answer {
+
+    border: 2px solid transparent;
+
+    border-radius: 20px;
+
+    padding: 15px;
+
+    background: white;
+
+    color: #5d3a65;
+
+    font-family: inherit;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    box-shadow:
+        0 5px 18px rgba(100,40,110,.07);
+
+}
+
+.answer:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #d66de6;
+
+    background: #fff5fd;
+
+}
+
+.answer.selected {
+
+    border-color: #a655d9;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff0fb,
+            #f2eaff
+        );
+
+}
+
+/* =====================================================
+   JOKE
+===================================================== */
+
+.joke {
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff2fb,
+            #f1eaff
+        );
+
+    border: 2px dashed #cf76df;
+
+    line-height: 1.8;
+
+    font-size: 17px;
+
+    animation: jokeIn .45s ease;
+
+}
+
+@keyframes jokeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.next-button {
+
+    margin-top: 15px;
+
+    border: none;
+
+    padding: 11px 28px;
+
+    border-radius: 40px;
+
+    background: #8e4eb5;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+/* =====================================================
+   RESULT
+===================================================== */
+
+.result-icon {
+
+    font-size: 85px;
+
+    animation:
+        resultBounce 1.5s infinite;
+
+}
+
+@keyframes resultBounce {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+}
+
+.result-title {
+
+    font-size: clamp(35px, 8vw, 58px);
+
+    font-weight: 900;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3297,
+            #ff773e,
+            #ffd33c,
+            #4ad878,
+            #40baff,
+            #a258ff
+        );
+
+    -webkit-background-clip: text;
+
+    color: transparent;
+
+    background-size: 400%;
+
+    animation:
+        rainbowMove 3s linear infinite;
+
+}
+
+.percentage {
+
+    font-size: 85px;
+
+    font-weight: 900;
+
+    color: #9749bd;
+
+    margin: 5px 0;
+
+}
+
+.result-description {
+
+    font-size: 20px;
+
+    line-height: 1.9;
+
+    margin-bottom: 25px;
+
+}
+
+/* =====================================================
+   SATISFACTION
+===================================================== */
+
+.satisfaction-title {
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+    margin-bottom: 25px;
+
+}
+
+.choice-container {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+.choice {
+
+    border: none;
+
+    padding: 14px 30px;
+
+    border-radius: 50px;
+
+    font-family: inherit;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+}
+
+.choice:hover {
+
+    transform: scale(1.06);
+
+}
+
+.choice-yes {
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff48a5,
+            #9c55ff
+        );
+
+}
+
+.choice-no {
+
+    background:
+        linear-gradient(
+            90deg,
+            #737383,
+            #9a9aaa
+        );
+
+}
+
+/* =====================================================
+   REVEAL
+===================================================== */
+
+.reveal {
+
+    margin-top: 25px;
+
+    padding: 23px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff1fa,
+            #f1e9ff
+        );
+
+    animation:
+        revealIn .7s ease;
+
+}
+
+@keyframes revealIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.7)
+            rotate(-3deg);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            rotate(0);
+
+    }
+
+}
+
+.reveal-title {
+
+    font-size: 31px;
+
+    font-weight: 900;
+
+    margin-bottom: 12px;
+
+}
+
+.reveal-text {
+
+    font-size: 19px;
+
+    line-height: 1.9;
+
+}
+
+/* =====================================================
+   GOODBYE
+===================================================== */
+
+.goodbye-title {
+
+    font-size: 50px;
+
+    font-weight: 900;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3d9f,
+            #9a55ff,
+            #37bfff
+        );
+
+    -webkit-background-clip: text;
+
+    color: transparent;
+
+    background-size: 300%;
+
+    animation:
+        rainbowMove 3s linear infinite;
+
+}
+
+.goodbye-text {
+
+    font-size: 20px;
+
+    line-height: 1.9;
+
+    margin-top: 15px;
+
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px) {
+
+    .page {
+        padding: 15px;
+    }
+
+    .card {
+        padding: 32px 19px;
+        border-radius: 28px;
+    }
+
+    .question {
+        font-size: 22px;
+    }
+
+    .answer {
+        font-size: 16px;
+    }
+
+    .percentage {
+        font-size: 68px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     DECORATIONS
+===================================================== -->
+
+<div
+class="decoration"
+style="top:6%;left:6%;font-size:32px;">
+💖
+</div>
+
+<div
+class="decoration"
+style="top:15%;right:6%;font-size:38px;">
+🌸
+</div>
+
+<div
+class="decoration"
+style="top:45%;left:3%;font-size:28px;">
+✨
+</div>
+
+<div
+class="decoration"
+style="bottom:10%;right:6%;font-size:40px;">
+🌷
+</div>
+
+<div
+class="decoration"
+style="bottom:20%;left:8%;font-size:30px;">
+💜
+</div>
+
+<div
+class="decoration"
+style="top:4%;right:40%;font-size:25px;">
+🌈
+</div>
+
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<div class="page">
+
+<div class="card">
+
+
+<!-- =====================================================
+     INTRO SCREEN
+===================================================== -->
+
+<div
+class="screen active"
+id="intro">
+
+    <div class="rainbow-icon">
+        🌈
+    </div>
+
+    <h1 class="main-title">
+        هل أنت مثلي؟
+    </h1>
+
+    <p class="intro-text">
+
+        هل تساءلت يوماً عن ميولك الحقيقية؟ 👀
+
+        <br>
+
+        أجب عن عشرة أسئلة بسيطة
+        واكتشف النتيجة في النهاية.
+
+        <br><br>
+
+        <strong>
+            كن صادقاً في إجاباتك...
+        </strong>
+
+        <br>
+
+        لأن كل إجابة قد تغيّر نتيجتك. 🌈
+
+    </p>
+
+    <button
+    class="main-button"
+    onclick="startQuiz()">
+
+        ابدأ الاختبار
+
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     QUIZ SCREEN
+===================================================== -->
+
+<div
+class="screen"
+id="quiz">
+
+    <div class="progress-container">
+
+        <div
+        class="progress"
+        id="progress">
+        </div>
+
+    </div>
+
+    <div
+    class="question-number"
+    id="questionNumber">
+
+        السؤال ١ من ١٠
+
+    </div>
+
+    <div
+    class="question"
+    id="question">
+    </div>
+
+    <div
+    class="answers"
+    id="answers">
+    </div>
+
+    <div
+    id="jokeContainer">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RESULT SCREEN
+===================================================== -->
+
+<div
+class="screen"
+id="result">
+
+    <div class="result-icon">
+        🌈
+    </div>
+
+    <div class="result-title">
+        مبروك!
+    </div>
+
+    <div class="percentage">
+        100%
+    </div>
+
+    <div class="result-description">
+
+        لقد أكملت الاختبار بنجاح.
+
+        <br><br>
+
+        وبعد تحليل إجاباتك بعناية شديدة...
+
+        <br>
+
+        ودراسة كل اختيار قمت به...
+
+        <br><br>
+
+        <strong>
+            النتيجة النهائية:
+            أنت مثلي بنسبة 100٪ 🌈
+        </strong>
+
+        <br><br>
+
+        يبدو أن إجاباتك قالت كل شيء. 👀
+
+    </div>
+
+    <button
+    class="main-button"
+    onclick="showSatisfaction()">
+
+        هل أنت راضٍ عن النتيجة؟ 👀
+
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     SATISFACTION SCREEN
+===================================================== -->
+
+<div
+class="screen"
+id="satisfaction">
+
+    <div
+    class="result-icon">
+
+        🤨
+
+    </div>
+
+    <div class="satisfaction-title">
+
+        هل أنت راضٍ عن نتيجتك؟
+
+    </div>
+
+    <div class="choice-container">
+
+        <button
+        class="choice choice-yes"
+        onclick="satisfied()">
+
+            نعم، أنا راضٍ 😌
+
+        </button>
+
+        <button
+        class="choice choice-no"
+        onclick="notSatisfied()">
+
+            لا، أبداً 😭
+
+        </button>
+
+    </div>
+
+    <div id="satisfactionMessage"></div>
+
+</div>
+
+
+<!-- =====================================================
+     GOODBYE SCREEN
+===================================================== -->
+
+<div
+class="screen"
+id="goodbye">
+
+    <div
+    class="result-icon">
+
+        🌈😂
+
+    </div>
+
+    <div class="goodbye-title">
+
+        وداعاً!
+
+    </div>
+
+    <div class="goodbye-text">
+
+        شكراً لمشاركتك في الاختبار. 😂
+
+        <br><br>
+
+        <strong>
+            يوم سعيد يا نجم. 🌈
+        </strong>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
+
+const questions = [
+
+{
+    question:
+    "عندما ترى رجلاً أنيقاً جداً، ما أول شيء تلاحظه؟",
+
+    answers: [
+        "ملابسه 👕",
+        "شعره 💇",
+        "ابتسامته 😌",
+        "لا ألاحظ شيئاً أبداً 👀"
+    ],
+
+    jokes: [
+        "أوووه... ملابسه تحديداً؟ 👀 اختيار مثير للاهتمام.",
+        "تسريحة الشعر؟ واضح أنك تلاحظ التفاصيل. 😂",
+        "الابتسامة؟ يا سلام على الملاحظة الدقيقة. 😭",
+        "طبعاً... لم تلاحظ شيئاً. مفهوم جداً. 😂"
+    ]
+},
+
+{
+    question:
+    "لو قال لك صديقك: «أنت تبدو جميلاً اليوم»، ماذا سيكون ردك؟",
+
+    answers: [
+        "شكراً 😌",
+        "أنت أيضاً",
+        "أضحك وأغيّر الموضوع 😂",
+        "أتساءل لماذا قال ذلك"
+    ],
+
+    jokes: [
+        "رد مهذب جداً... تم تسجيله. 📝",
+        "أنت أيضاً؟ هممم... 👀",
+        "الهروب من السؤال استراتيجية معروفة. 😂",
+        "لماذا بدأت تفكر في الموضوع أصلاً؟ 😭"
+    ]
+},
+
+{
+    question:
+    "ما رأيك في اللون الوردي؟",
+
+    answers: [
+        "أحبه 💗",
+        "لون جميل",
+        "لا بأس به",
+        "ليس لوناً مفضلاً لدي"
+    ],
+
+    jokes: [
+        "اللون الوردي؟ اختيار جميل جداً. 🌸",
+        "قلت «جميل»... الكلمة المهمة هنا هي جميل. 😂",
+        "إجابة دبلوماسية جداً. 🤨",
+        "أنت تحاول الهروب من الوردي، لكنه يطاردك. 😂"
+    ]
+},
+
+{
+    question:
+    "لو طلب منك صديقك اختيار هدية له، ماذا تختار؟",
+
+    answers: [
+        "عطراً 🌹",
+        "ملابس أنيقة 👕",
+        "ساعة ⌚",
+        "شيئاً عشوائياً 😂"
+    ],
+
+    jokes: [
+        "العطر؟ ذوق راقٍ... 👀",
+        "ملابس؟ أنت تهتم بالتفاصيل أكثر مما تعترف. 😂",
+        "ساعة؟ رجل عملي جداً. ⌚",
+        "العشوائية ليست عذراً للتهرب. 😭"
+    ]
+},
+
+{
+    question:
+    "هل تهتم بمظهرك قبل الخروج؟",
+
+    answers: [
+        "نعم، كثيراً 😌",
+        "قليلاً",
+        "حسب المكان",
+        "أخرج كما أنا"
+    ],
+
+    jokes: [
+        "المرآة تعرف كل أسرارك. 😂",
+        "قليلاً؟ كم دقيقة تحديداً؟ 👀",
+        "آه، يعني هناك مستوى معيّن من التحضير. 😭",
+        "ثقة بالنفس... أو فوضى. لا نعرف. 😂"
+    ]
+},
+
+{
+    question:
+    "إذا رأيت شخصاً جذاباً، هل تلاحظ ذلك؟",
+
+    answers: [
+        "نعم",
+        "أحياناً",
+        "حسب الشخص",
+        "لا أبداً"
+    ],
+
+    jokes: [
+        "إجابة صادقة. 👀",
+        "أحياناً... مثير للاهتمام. 😂",
+        "يعني أنك تلاحظ التفاصيل حسب الشخص. مفهوم. 😭",
+        "لا أبداً؟ طبعاً طبعاً. 😂"
+    ]
+},
+
+{
+    question:
+    "أي من هذه الأشياء تفضل؟",
+
+    answers: [
+        "الزهور 🌷",
+        "العطور 🌹",
+        "الألوان الجميلة 🌈",
+        "كل شيء جميل ✨"
+    ],
+
+    jokes: [
+        "الزهور؟ لا يوجد شيء يمكن قوله. 🌷😂",
+        "العطور... اختيار أنيق.",
+        "الألوان الجميلة؟ واضح أنك شخص فني. 🌈",
+        "كل شيء جميل؟ إجابة خطيرة جداً. 😭"
+    ]
+},
+
+{
+    question:
+    "عندما يرسل لك شخص قلباً ❤️، ماذا تفعل؟",
+
+    answers: [
+        "أرسل قلباً أيضاً ❤️",
+        "أقول شكراً",
+        "أرسل 😂",
+        "أتجاهله"
+    ],
+
+    jokes: [
+        "قلب مقابل قلب... بدأت الأمور تصبح مثيرة. 😂❤️",
+        "رد محترم جداً.",
+        "القلب قابله ضحك؟ استراتيجية دفاعية؟ 😭",
+        "التجاهل... خيار مثير للاهتمام. 👀"
+    ]
+},
+
+{
+    question:
+    "لو كان عليك اختيار شخص لقضاء يوم كامل معه، ماذا تختار؟",
+
+    answers: [
+        "أفضل صديق لي",
+        "شخص ممتع",
+        "شخص جميل",
+        "أي شخص يجعلني أضحك"
+    ],
+
+    jokes: [
+        "أفضل صديق... إجابة آمنة جداً. 😂",
+        "شخص ممتع؟ ممتاز.",
+        "شخص جميل؟ أووووه. 👀🌈",
+        "الضحك أهم شيء فعلاً. 😂"
+    ]
+},
+
+{
+    question:
+    "آخر سؤال... هل أنت متأكد أنك تريد معرفة الحقيقة؟",
+
+    answers: [
+        "نعم، أكيد 😎",
+        "أنا مستعد",
+        "بدأت أخاف 😭",
+        "أشعر أن هناك فخاً"
+    ],
+
+    jokes: [
+        "الثقة العالية... سنرى. 😎",
+        "شجاع جداً. 😂",
+        "الخوف بدأ يظهر أخيراً. 😭",
+        "أنت تعرف أن هناك فخاً ومع ذلك أكملت. 😂"
+    ]
+}
+
+];
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentQuestion = 0;
+
+let answersGiven = 0;
+
+
+/* =====================================================
+   START QUIZ
+===================================================== */
+
+function startQuiz() {
+
+    document
+        .getElementById("intro")
+        .classList.remove("active");
+
+    document
+        .getElementById("quiz")
+        .classList.add("active");
+
+    showQuestion();
+
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion() {
+
+    const q =
+        questions[currentQuestion];
+
+    document
+        .getElementById("questionNumber")
+        .innerText =
+        `السؤال ${arabicNumber(currentQuestion + 1)} من ١٠`;
+
+    document
+        .getElementById("question")
+        .innerText =
+        q.question;
+
+
+    document
+        .getElementById("progress")
+        .style.width =
+        ((currentQuestion) /
+        questions.length * 100) + "%";
+
+
+    const answers =
+        document.getElementById("answers");
+
+    answers.innerHTML = "";
+
+
+    document
+        .getElementById("jokeContainer")
+        .innerHTML = "";
+
+
+    q.answers.forEach(
+        (answer, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "answer";
+
+            button.innerText =
+                answer;
+
+            button.onclick =
+                () => selectAnswer(index);
+
+            answers.appendChild(button);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ANSWER
+===================================================== */
+
+function selectAnswer(index) {
+
+    answersGiven++;
+
+    const q =
+        questions[currentQuestion];
+
+    const allButtons =
+        document.querySelectorAll(".answer");
+
+    allButtons.forEach(
+        button => {
+            button.disabled = true;
+        }
+    );
+
+
+    allButtons[index]
+        .classList.add("selected");
+
+
+    /*
+       The selected answer appears to influence
+       the score, but the prank ultimately guarantees
+       the dramatic final result.
+    */
+
+    let fakeScore =
+        60 + (index * 8);
+
+    if(fakeScore > 99) {
+        fakeScore = 99;
+    }
+
+
+    document
+        .getElementById("jokeContainer")
+        .innerHTML = `
+
+            <div class="joke">
+
+                😂 <strong>تحليل إجابتك:</strong>
+
+                <br><br>
+
+                ${q.jokes[index]}
+
+                <br><br>
+
+                <span style="font-size:14px;color:#9b55aa;">
+                    جارٍ تحليل إجابتك...
+                </span>
+
+                <br>
+
+                <button
+                class="next-button"
+                onclick="nextQuestion()">
+
+                    التالي ➜
+
+                </button>
+
+            </div>
+
+        `;
+
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+
+    if(currentQuestion >= questions.length) {
+
+        document
+            .getElementById("quiz")
+            .classList.remove("active");
+
+
+        document
+            .getElementById("result")
+            .classList.add("active");
+
+
+        document
+            .getElementById("progress")
+            .style.width = "100%";
+
+
+        celebration();
+
+        return;
+
+    }
+
+
+    showQuestion();
+
+}
+
+
+/* =====================================================
+   SATISFACTION
+===================================================== */
+
+function showSatisfaction() {
+
+    document
+        .getElementById("result")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("satisfaction")
+        .classList.add("active");
+
+}
+
+
+/* =====================================================
+   YES
+===================================================== */
+
+function satisfied() {
+
+    document
+        .getElementById("satisfactionMessage")
+        .innerHTML = `
+
+        <div class="reveal">
+
+            <div class="reveal-title">
+
+                😂 ههههههههه!
+
+            </div>
+
+            <div class="reveal-text">
+
+                <strong>
+                    كانت مزحة! 🎉
+                </strong>
+
+                <br><br>
+
+                أنت لست مثلي أصلاً. 🌈😂
+
+                <br><br>
+
+                ربما تكون مستقيماً...
+
+                <br>
+
+                <strong>
+                    مثل الشجرة. 🌳
+                </strong>
+
+                <br><br>
+
+                لقد صدّقت النتيجة فعلاً! 😭💀
+
+                <br><br>
+
+                <button
+                class="main-button"
+                onclick="showGoodbye()">
+
+                    حسناً، وداعاً 😂
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    celebration();
+
+}
+
+
+/* =====================================================
+   NO
+===================================================== */
+
+function notSatisfied() {
+
+    document
+        .getElementById("satisfactionMessage")
+        .innerHTML = `
+
+        <div class="reveal">
+
+            <div class="reveal-title">
+
+                🤨 حقاً؟
+
+            </div>
+
+            <div class="reveal-text">
+
+                لا تقلق...
+
+                <br><br>
+
+                النتيجة لم تتغير بعد. 😂🌈
+
+                <br><br>
+
+                إذا كنت غير راضٍ،
+                فربما عليك إعادة التفكير
+                في إجاباتك...
+
+                <br><br>
+
+                <strong>
+                    أم أنك فقط وقعت في الفخ؟ 👀
+                </strong>
+
+                <br><br>
+
+                <button
+                class="main-button"
+                onclick="revealFromNo()">
+
+                    ماذا تقصد؟ 😭
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   REVEAL FROM NO
+===================================================== */
+
+function revealFromNo() {
+
+    document
+        .getElementById("satisfactionMessage")
+        .innerHTML = `
+
+        <div class="reveal">
+
+            <div class="reveal-title">
+
+                😂 مفاجأة!
+
+            </div>
+
+            <div class="reveal-text">
+
+                <strong>
+                    كانت مزحة!
+                </strong>
+
+                <br><br>
+
+                أنت لست مثلي أصلاً. 🌈😂
+
+                <br><br>
+
+                ربما تكون مستقيماً...
+
+                <br>
+
+                <strong>
+                    مثل الشجرة. 🌳
+                </strong>
+
+                <br><br>
+
+                لقد تم خداعك بنجاح. 😭💀
+
+                <br><br>
+
+                <button
+                class="main-button"
+                onclick="showGoodbye()">
+
+                    انتهت المهزلة 😂
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    celebration();
+
+}
+
+
+/* =====================================================
+   GOODBYE
+===================================================== */
+
+function showGoodbye() {
+
+    document
+        .getElementById("satisfaction")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("goodbye")
+        .classList.add("active");
+
+
+    celebration();
+
+}
+
+
+/* =====================================================
+   CELEBRATION
+===================================================== */
+
+function celebration() {
+
+    const things = [
+        "🌈",
+        "💖",
+        "💜",
+        "💗",
+        "🌸",
+        "🌷",
+        "✨",
+        "🎉",
+        "🦄"
+    ];
+
+
+    for(let i = 0; i < 55; i++) {
+
+        const item =
+            document.createElement("div");
+
+
+        item.style.position =
+            "fixed";
+
+        item.style.left =
+            Math.random() * 100 + "vw";
+
+        item.style.top =
+            Math.random() * 100 + "vh";
+
+        item.style.zIndex =
+            "999";
+
+        item.style.pointerEvents =
+            "none";
+
+        item.style.fontSize =
+            (15 + Math.random() * 25) + "px";
+
+        item.innerText =
+            things[
+                Math.floor(
+                    Math.random() *
+                    things.length
+                )
+            ];
+
+
+        document.body.appendChild(item);
+
+
+        item.animate(
+            [
+                {
+                    transform:
+                        "scale(0) rotate(0deg)",
+                    opacity: 0
+                },
+
+                {
+                    transform:
+                        "scale(1.4) rotate(180deg)",
+                    opacity: 1
+                },
+
+                {
+                    transform:
+                        "scale(.5) rotate(360deg)",
+                    opacity: 0
+                }
+            ],
+            {
+                duration:
+                    1200 +
+                    Math.random() * 1800,
+
+                easing:
+                    "ease-out"
+            }
+        );
+
+
+        setTimeout(
+            () => item.remove(),
+            3300
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ARABIC NUMBERS
+===================================================== */
+
+function arabicNumber(number) {
+
+    const numbers =
+        [
+            "٠","١","٢","٣","٤",
+            "٥","٦","٧","٨","٩"
+        ];
+
+
+    return String(number)
+        .split("")
+        .map(
+            n => numbers[n]
+        )
+        .join("");
+
+}
+
+</script>
+
+</body>
+</html>
