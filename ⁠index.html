@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ghoufrane!</title>
+<style>
+    /* --- 1. BASIC SETUP --- */
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #1a0529; /* Deep purple background */
+        color: white;
+        font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif; /* Cute font */
+        overflow: hidden; /* Prevent scrollbars during animations */
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    button {
+        font-family: inherit;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.2rem;
+        transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.1); }
+
+    /* --- 2. INTRO ANIMATION (CAKE TO TEXT) --- */
+    /* Container for the initial elements */
+    #intro-container {
+        position: absolute;
+        z-index: 100;
+        animation: fadeOutIntro 4s forwards; /* Runs for 4 seconds, then fades */
+        animation-delay: 5s; /* Starts after the cake animation finishes */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Cake Emoji with explosion */
+    #cake-emoji {
+        font-size: 6rem;
+        position: absolute;
+        animation: popInAndExplode 5s forwards; /* Sequence: pop, explode, fade */
+    }
+
+    /* Animated Flowers */
+    .flower {
+        position: absolute;
+        font-size: 2rem;
+        opacity: 0;
+        animation: throwFlowers 5s ease-out forwards; /* Thrown outwards */
+    }
+    /* Scatter flowers in different directions */
+    .flower:nth-child(1) { animation-delay: 0.5s; top: 40%; left: 30%; }
+    .flower:nth-child(2) { animation-delay: 0.7s; top: 20%; left: 50%; }
+    .flower:nth-child(3) { animation-delay: 1.0s; top: 60%; left: 60%; }
+    .flower:nth-child(4) { animation-delay: 0.8s; top: 30%; left: 70%; }
+    .flower:nth-child(5) { animation-delay: 1.2s; top: 70%; left: 40%; }
+    .flower:nth-child(6) { animation-delay: 0.6s; top: 50%; left: 20%; }
+
+    /* Final Happy Birthday Text (appears after explosion) */
+    #final-hb {
+        font-size: 4rem;
+        position: absolute;
+        opacity: 0;
+        animation: rainbowPulse 2s ease-in-out infinite alternate; /* Color changing */
+        animation-delay: 3.5s; /* Starts near the end of the cake animation */
+    }
+
+    /* --- KEYFRAMES FOR INTRO --- */
+    @keyframes popInAndExplode {
+        0% { transform: scale(0); opacity: 0; }
+        10% { transform: scale(1.2); opacity: 1; }
+        20% { transform: scale(1); } /* Settle */
+        80% { transform: scale(1) rotate(0deg); opacity: 1; } /* Hold */
+        90% { transform: scale(3) rotate(20deg); opacity: 0; } /* Explode out */
+        100% { transform: scale(3); opacity: 0; }
+    }
+
+    @keyframes throwFlowers {
+        0% { transform: scale(0) translate(0,0); opacity: 1; }
+        100% { transform: scale(1) translate(var(--moveX), var(--moveY)); opacity: 0; }
+    }
+
+    @keyframes rainbowPulse {
+        0% { color: #ff00cc; text-shadow: 0 0 10px #ff00cc; }
+        50% { color: #00ccff; text-shadow: 0 0 10px #00ccff; }
+        100% { color: #9933ff; text-shadow: 0 0 10px #9933ff; } /* Settles on purple */
+    }
+
+    @keyframes fadeOutIntro {
+        0% { opacity: 1; visibility: visible; }
+        100% { opacity: 0; visibility: hidden; }
+    }
+
+
+    /* --- 3. CURTAIN OPENING --- */
+    .curtain-container {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        z-index: 50;
+        pointer-events: none; /* Allows clicking through */
+        animation: openCurtains 1s forwards;
+        animation-delay: 9s; /* Starts after intro finishes (4s cake + 5s wait) */
+    }
+
+    .curtain {
+        width: 50%;
+        height: 100%;
+        background-color: #5e1794; /* Rich purple curtain */
+        background-image: radial-gradient(#761db9 10%, transparent 10%);
+        background-size: 20px 20px;
+        transition: transform 1s ease-in-out;
+        border-right: 4px solid #3a0e5c;
+    }
+    .curtain.left { transform: translateX(0); }
+    .curtain.right { transform: translateX(0); border-left: 4px solid #3a0e5c; border-right: none; }
+
+    @keyframes openCurtains {
+        100% { visibility: hidden; }
+    }
+    /* The actual movement animation */
+    @keyframes openCurtains {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* --- 4. LETTER REVEALED --- */
+    #letter-screen {
+        position: absolute;
+        z-index: 10;
+        width: 85%;
+        max-width: 600px;
+        background: white;
+        color: #330066;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        transform: scale(0);
+        transition: transform 0.5s ease-out;
+        opacity: 0;
+        border: 5px solid #ff99cc;
+        pointer-events: auto; /* Blocks clicks behind it */
+        text-align: left;
+    }
+
+    #letter-screen.show {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    #letter-text {
+        font-size: 1.4rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+    /* Add specific color for the friend's name */
+    .highlight-name {
+        color: #ff00cc;
+        font-weight: bold;
+    }
+
+    #next-btn-container {
+        text-align: right;
+    }
+    #next-btn {
+        background-color: #ff99cc;
+        color: white;
+        font-size: 1.3rem;
+    }
+
+    /* --- 5. "CATCH ME" GAME --- */
+    #game-screen {
+        position: absolute;
+        z-index: 5; /* Behind the letter initially */
+        width: 100%;
+        height: 100%;
+        display: none; /* Hidden until activated */
+        pointer-events: auto;
+    }
+
+    #chase-girl {
+        position: absolute;
+        font-size: 6rem; /* Big emoji */
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        z-index: 6;
+        /* Add a little wobble animation while she runs */
+        animation: runWobble 0.5s infinite alternate;
+    }
+
+    @keyframes runWobble {
+        0% { transform: translateY(0) rotate(-5deg); }
+        100% { transform: translateY(-15px) rotate(5deg); }
+    }
+
+    /* --- 6. FINAL QUESTION & OPTIONS --- */
+    #final-question-screen {
+        position: absolute;
+        z-index: 15;
+        text-align: center;
+        display: none; /* Hidden until end of game */
+        pointer-events: auto;
+    }
+    #question-girl { font-size: 8rem; margin-bottom: 20px; }
+    #final-text { font-size: 3rem; color: #ffccff; margin-bottom: 30px; }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+    }
+    #yes-btn { background-color: #66ff66; color: #003300; font-size: 1.5rem; }
+    #no-btn { background-color: #ff4d4d; color: white; font-size: 1.5rem; }
+
+    /* --- 7. CLOSING CURTAIN & MESSAGE --- */
+    #closing-curtain {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: none; /* Hidden until final answer */
+        z-index: 50;
+        animation: closeCurtains 1s forwards;
+    }
+    #closing-msg {
+        position: absolute;
+        z-index: 60;
+        font-size: 4rem;
+        color: white;
+        text-shadow: 0 0 20px #ff00cc;
+        opacity: 0;
+        animation: fadeInMsg 0.5s forwards;
+        animation-delay: 0.5s;
+    }
+
+    @keyframes closeCurtains {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(0); }
+    }
+    @keyframes fadeInMsg {
+        0% { opacity: 0; transform: scale(0); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+</style>
+</head>
+<body>
+
+    <!-- PART 1: INTRO ANIMATION (CAKE -> FLOWERS -> HAPPY BIRTHDAY TEXT) -->
+    <div id="intro-container">
+        <div id="cake-emoji">🎂</div>
+        <!-- Animated flowers throwing out -->
+        <div class="flower" style="--moveX: 200px; --moveY: -150px;">🌸</div>
+        <div class="flower" style="--moveX: -180px; --moveY: -100px;">🌺</div>
+        <div class="flower" style="--moveX: 150px; --moveY: 100px;">🌼</div>
+        <div class="flower" style="--moveX: -250px; --moveY: 50px;">🌸</div>
+        <div class="flower" style="--moveX: 100px; --moveY: 200px;">🌺</div>
+        <div class="flower" style="--moveX: -100px; --moveY: -200px;">🌼</div>
+        <!-- Final Text -->
+        <div id="final-hb">Happy Birthday! 🎉</div>
+    </div>
+
+    <!-- PART 2: CURTAIN OPENING REVEALING THE LETTER -->
+    <div class="curtain-container">
+        <div class="curtain left"></div>
+        <div class="curtain right"></div>
+    </div>
+
+    <!-- PART 3: THE LETTER (Readable and heartfelt) -->
+    <div id="letter-screen">
+        <div id="letter-text">
+            Dear <span class="highlight-name">Ghoufrane</span>,<br><br>
+            Surprise! ✨ I am so incredibly happy that this special day is finally here. Turning 20 is a huge milestone!<br><br>
+            You are one of the most energetic, brightest, and most vibrant people I have ever met. Your light just fills up the room when you enter, and I'm just so, so glad you exist and are in my life.<br><br>
+            Wishing you the most amazing birthday ever, full of love, laughter, and everything you deserve. Let's make this year unforgettable! 💖<br><br>
+            Love, <br>
+            Your Best Friend
+        </div>
+        <div id="next-btn-container">
+            <button id="next-btn" onclick="startLetterNext()">Next 👉</button>
+        </div>
+    </div>
+
+    <!-- PART 4: "CATCH ME" GAME SCREEN -->
+    <div id="game-screen">
+        <div id="chase-girl" onclick="catchGirl()">💃</div>
+    </div>
+
+    <!-- PART 5: FINAL QUESTION SCREEN -->
+    <div id="final-question-screen">
+        <div id="question-girl">💃</div>
+        <div id="final-text">So what do you think?<br> Should we stay best friends forever?</div>
+        <div class="button-group">
+            <button id="yes-btn" onclick="endGame('yes')">YES! Absolutely! 🥰</button>
+            <button id="no-btn" onclick="endGame('no')">No... (wait, really?)</button>
+        </div>
+    </div>
+
+    <!-- PART 6: CLOSING CURTAIN & MESSAGE -->
+    <div id="closing-curtain"></div>
+    <div id="closing-msg">Thank you! Bye-bye! 👋</div>
+
+<script>
+    // JavaScript to handle the interactions between screens
+
+    // === Sequence 1: Letter -> Game Transition ===
+    function startLetterNext() {
+        document.getElementById('letter-screen').style.transform = 'translateY(1000px)'; // Slide letter down
+        setTimeout(() => {
+            document.getElementById('letter-screen').style.display = 'none';
+            startCatchMeGame();
+        }, 500); // Wait for slide animation
+    }
+
+    // === Sequence 2: The Catch Me Game ===
+    let catchCount = 0;
+    const maxCatches = 10; // We want her to click 10 times
+    const girl = document.getElementById('chase-girl');
+
+    function startCatchMeGame() {
+        const gameScreen = document.getElementById('game-screen');
+        gameScreen.style.display = 'block';
+        moveGirl(); // Move her the first time
+    }
+
+    function moveGirl() {
+        // Define a padding area so the girl doesn't go fully off-screen
+        const padding = 50;
+        // Generate random new X and Y positions based on screen size
+        const newX = Math.random() * (window.innerWidth - girl.offsetWidth - padding);
+        const newY = Math.random() * (window.innerHeight - girl.offsetHeight - padding);
+
+        girl.style.left = newX + 'px';
+        girl.style.top = newY + 'px';
+        girl.style.transform = 'rotate(' + (Math.random() * 30 - 15) + 'deg)'; // Add tilt
+    }
+
+    function catchGirl() {
+        catchCount++;
+        moveGirl(); // Move her to a new spot when clicked
+        if (catchCount >= maxCatches) {
+            // Finish the game when caught enough times
+            setTimeout(showFinalQuestion, 300);
+        }
+    }
+
+    // === Sequence 3: Final Question ===
+    function showFinalQuestion() {
+        document.getElementById('game-screen').style.display = 'none';
+        const finalScreen = document.getElementById('final-question-screen');
+        finalScreen.style.display = 'block';
+        finalScreen.style.animation = 'fadeInMsg 0.5s forwards';
+    }
+
+    // === Sequence 4: Closing Message ===
+    function endGame(answer) {
+        document.getElementById('final-question-screen').style.display = 'none';
+        document.getElementById('closing-curtain').style.display = 'block';
+
+        const closingMsg = document.getElementById('closing-msg');
+        if (answer === 'yes') {
+            closingMsg.innerHTML = "YAY! Best Friends Forever! 🎉💖";
+        } else {
+            closingMsg.innerHTML = "Oops! Try clicking YES next time 😉";
+        }
+        closingMsg.style.display = 'block';
+    }
+
+    // === Trigger the Letter Reveal Automatically (runs after 10 seconds total intro time) ===
+    setTimeout(() => {
+        document.getElementById('letter-screen').classList.add('show');
+    }, 10000);
+
+</script>
+</body>
+</html>
