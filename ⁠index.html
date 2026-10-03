@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ghoufrane!</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #1a0529; /* Deep purple background */
+        color: white;
+        font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    button {
+        font-family: inherit;
+        cursor: pointer;
+        padding: 12px 24px;
+        border-radius: 25px;
+        border: none;
+        font-size: 1.2rem;
+        transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.1); }
+
+    /* --- THE LETTER SCREEN --- */
+    #letter-screen {
+        position: absolute;
+        z-index: 10;
+        width: 85%;
+        max-width: 550px;
+        background: white;
+        color: #330066;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 5px solid #ff99cc;
+        text-align: left;
+    }
+
+    #letter-text {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .highlight-name {
+        color: #ff00cc;
+        font-weight: bold;
+    }
+
+    #next-btn-container {
+        text-align: right;
+    }
+    #next-btn {
+        background-color: #ff99cc;
+        color: white;
+    }
+
+    /* --- "CATCH ME" GAME SCREEN --- */
+    #game-screen {
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+
+    #chase-girl {
+        position: absolute;
+        font-size: 5rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        z-index: 6;
+        animation: runWobble 0.4s infinite alternate;
+    }
+
+    @keyframes runWobble {
+        0% { transform: translateY(0) rotate(-10deg); }
+        100% { transform: translateY(-10px) rotate(10deg); }
+    }
+
+    /* --- FINAL QUESTION SCREEN --- */
+    #final-question-screen {
+        position: absolute;
+        z-index: 15;
+        display: none;
+        width: 90%;
+        max-width: 500px;
+    }
+    #question-girl { font-size: 6rem; margin-bottom: 15px; }
+    #final-text { font-size: 2.2rem; color: #ffccff; margin-bottom: 25px; text-shadow: 0 0 10px #ff00cc; }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    #yes-btn { background-color: #66ff66; color: #003300; font-size: 1.3rem; }
+    #no-btn { background-color: #ff4d4d; color: white; font-size: 1.3rem; }
+
+    /* --- CLOSING SCREEN --- */
+    #closing-screen {
+        position: absolute;
+        z-index: 50;
+        display: none;
+        font-size: 3rem;
+        color: white;
+        text-shadow: 0 0 20px #ff00cc;
+        background: #1a0529;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+</head>
+<body>
+
+    <!-- THE LETTER SCREEN -->
+    <div id="letter-screen">
+        <div id="letter-text">
+            Dear <span class="highlight-name">Ghoufrane</span>, 💖<br><br>
+            Surprise! ✨ I am so incredibly happy that this special day is finally here. Turning 20 is a huge milestone!<br><br>
+            You are one of the most energetic, brightest, and most vibrant people I have ever met. Your light fills up the room, and I'm just so glad you're in my life.<br><br>
+            Wishing you the most amazing birthday ever! Let's make this year unforgettable! 🎉<br><br>
+            Love, <br>
+            Your Best Friend
+        </div>
+        <div id="next-btn-container">
+            <button id="next-btn" onclick="startCatchMeGame()">Next 👉</button>
+        </div>
+    </div>
+
+    <!-- "CATCH ME" GAME SCREEN -->
+    <div id="game-screen">
+        <div style="position: absolute; top: 20px; width: 100%; text-align: center; font-size: 1.5rem; color: #ff99cc;">
+            Catch the dancing girl! (<span id="score">0</span>/10) 💃
+        </div>
+        <div id="chase-girl" onclick="catchGirl()">💃</div>
+    </div>
+
+    <!-- FINAL QUESTION SCREEN -->
+    <div id="final-question-screen">
+        <div id="question-girl">💃</div>
+        <div id="final-text">So what do you think?<br>Should we stay best friends forever? 🥰</div>
+        <div class="button-group">
+            <button id="yes-btn" onclick="endGame('yes')">YES! Absolutely! 💕</button>
+            <button id="no-btn" onclick="endGame('no')">No... 🙈</button>
+        </div>
+    </div>
+
+    <!-- CLOSING SCREEN -->
+    <div id="closing-screen">
+        <div id="closing-msg">Thank you! Bye-bye! 👋</div>
+    </div>
+
+<script>
+    let catchCount = 0;
+    const maxCatches = 10;
+    const girl = document.getElementById('chase-girl');
+
+    function startCatchMeGame() {
+        document.getElementById('letter-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'block';
+        moveGirl();
+    }
+
+    function moveGirl() {
+        const padding = 80;
+        const maxX = window.innerWidth - 120;
+        const maxY = window.innerHeight - 150;
+        
+        const newX = Math.max(padding, Math.random() * maxX);
+        const newY = Math.max(padding, Math.random() * maxY);
+
+        girl.style.left = newX + 'px';
+        girl.style.top = newY + 'px';
+    }
+
+    function catchGirl() {
+        catchCount++;
+        document.getElementById('score').innerText = catchCount;
+        
+        if (catchCount >= maxCatches) {
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('final-question-screen').style.display = 'block';
+        } else {
+            moveGirl();
+        }
+    }
+
+    function endGame(answer) {
+        document.getElementById('final-question-screen').style.display = 'none';
+        const closingScreen = document.getElementById('closing-screen');
+        const closingMsg = document.getElementById('closing-msg');
+        
+        if (answer === 'yes') {
+            closingMsg.innerHTML = "🎉 YAY! Best Friends Forever! 🎉<br><span style='font-size:1.5rem;'>Happy 20th Birthday Ghoufrane! 💖</span>";
+        } else {
+            closingMsg.innerHTML = "Nice try! You have to say YES! 😉💕";
+        }
+        closingScreen.style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>
